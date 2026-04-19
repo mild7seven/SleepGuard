@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SleepGuard PRO v2 - Monitor</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        body { font-family: system-ui, sans-serif; background: #121212; color: #e0e0e0; padding: 20px; max-width: 600px; margin: auto; }
+        .header { text-align: center; margin-bottom: 20px; }
+        canvas { width: 100%; height: 150px; background: #1e1e1e; border-radius: 8px; margin-bottom: 15px; border: 1px solid #333; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        
+        .controls { background: #1e1e1e; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333; }
+        .controls label { display: block; margin-bottom: 10px; font-weight: bold; }
+        input[type=range] { width: 100%; margin-bottom: 10px; }
+        
+        button { background: #4CAF50; color: white; border: none; padding: 15px 20px; border-radius: 8px; font-size: 16px; cursor: pointer; width: 100%; font-weight: bold; transition: 0.3s; }
+        button:hover { filter: brightness(1.1); }
+        button.stop { background: #f44336; display: none; }
+        
+        .status-badge { display: inline-block; padding: 5px 10px; border-radius: 4px; font-size: 12px; background: #555; margin-top: 10px; }
+        .status-badge.active { background: #2196F3; color: white; }
+        
+        #logList { list-style: none; padding: 0; }
+        #logList li { background: #2a2a2a; padding: 15px; margin-bottom: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #4CAF50; }
+        a.download-btn { background: #2196F3; color: white; padding: 8px 12px; text-decoration: none; border-radius: 5px; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h2>SleepGuard PRO v2</h2>
+        <p>Isolasi Suara Tidur & Pemantauan Semalaman</p>
+    </div>
+
+    <canvas id="waveform"></canvas>
+    
+    <div class="controls">
+        <label for="thresholdSlider">Sensitivitas Deteksi (Noise Floor): <span id="thresholdVal">25</span></label>
+        <input type="range" id="thresholdSlider" min="5" max="100" value="25">
+        <div id="wakeLockStatus" class="status-badge">Wake Lock: Nonaktif</div>
+    </div>
+
+    <button id="startBtn">Mulai Pemantauan</button>
+    <button id="stopBtn" class="stop">Hentikan Pemantauan</button>
+
+    <h3>Log Kejadian (Audio Terekam)</h3>
+    <ul id="logList"></ul>
+
+    <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+</body>
+</html>
